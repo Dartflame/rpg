@@ -11,7 +11,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Date;
 
-public class PlayerCriterias {
+public class PlayerSearchSpecs {
 
     public static Specification<Player> findPlayerByName(final String name) {
         return new Specification<Player>() {
@@ -160,33 +160,5 @@ public class PlayerCriterias {
             }
         };
     }
-//    public static Specification<Player> findPlayerByLevel(final Integer levelMin,final Integer levelMax) {
-//        return new Specification<Player>() {
-//            @Override
-//            public Predicate toPredicate(Root<Player> root,
-//                                         CriteriaQuery<?> criteriaQuery,
-//                                         CriteriaBuilder criteriaBuilder) {
-//
-//                if(levelMin == null & levelMax == null)
-//                    return null;
-//
-//                Predicate lesser = null;
-//                Predicate greater = null;
-//
-//                if(levelMin == null && levelMax != null){
-//                    lesser = criteriaBuilder.lessThanOrEqualTo(root.get("level"),levelMax);
-//                    return lesser;
-//                }
-//                if(levelMin != null && levelMax == null){
-//                    greater = criteriaBuilder.greaterThanOrEqualTo(root.get("level"),levelMin);
-//                    return greater;
-//                }
-//
-//                greater = criteriaBuilder.greaterThanOrEqualTo(root.get("level"),levelMin);
-//                lesser = criteriaBuilder.lessThanOrEqualTo(root.get("level"),levelMax);
-//                return criteriaBuilder.and(greater,lesser);
-//            }
-//        };
-//    }
 
 }

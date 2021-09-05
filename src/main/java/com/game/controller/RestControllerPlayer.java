@@ -1,26 +1,19 @@
 package com.game.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.game.entity.Profession;
 import com.game.entity.Race;
 import com.game.service.PlayerService;
 import com.game.entity.Player;
-import com.game.service.PlayerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.naming.Context;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/rest/players")
@@ -46,22 +39,12 @@ public class RestControllerPlayer {
     public ResponseEntity<Player> createPlayer(@RequestBody Player player) {
         HttpHeaders headers = new HttpHeaders();
 
-        if (player == null || player.getName() == null || player.getTitle() == null
-                || player.getRace() == null || player.getProfession() == null
-                || player.getName().equals("") || player.getExperience() == null
-                || player.getBirthday() == null || player.getExperience() < 0 || player.getExperience() > 10_000_000
-                || player.getBirthday().getTime() <0l || player.getTitle().length() > 30 || player.getName().length() > 12
-                || player.getBirthday().before(new Date(100,1,1))
-                || player.getBirthday().after(new Date(1100,1,1))) {
+        try {
+            playerService.save(player);
+        } catch(Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if(player.isBanned() == null)
-            player.setBanned(false);
 
-        player.setLevel(Math.toIntExact(Math.round((Math.sqrt(2500 + 200 * player.getExperience()) - 50) / 100)));
-        player.setUntilNextLevel(50 * (player.getLevel() + 1) * (player.getLevel() + 2) - player.getExperience());
-
-        playerService.save(player);
         return new ResponseEntity<>(player, headers, HttpStatus.OK);
     }
 
@@ -172,8 +155,4 @@ public class RestControllerPlayer {
 
         return new ResponseEntity<>((int)players.getTotalElements(), HttpStatus.OK);
     }
-
-
-
-
 }

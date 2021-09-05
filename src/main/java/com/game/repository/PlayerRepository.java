@@ -16,15 +16,6 @@ import java.util.List;
 @Repository
 @Transactional
 public interface PlayerRepository extends PagingAndSortingRepository<Player,Long>, JpaSpecificationExecutor<Player> {
+
     boolean existsById(Long id);
-
-    List<Player> findAllByNameContainsAndTitleContains(String name, String title, Pageable pageable);
-
-    //Specification<Player> findAllByLevelBeforeAndLevelAfter(Integer maxLevel,Integer minLevel, Pageable pageable);
-    //List<Player> findAllByLevelBeforeAndLevelAfter(Integer maxLevel,Integer minLevel, Pageable pageable);
-
-    //Specification<Player> findAllByLevelBeforeAndLevelAfter(Integer maxLevel,Integer minLevel, Pageable pageable);
-    //Iterable<Player> findAll(String name, Pageable pageable, Specification<Player> predicate);
-    //List<Player> findAllByTitleContains(String title, Pageable pageable);
-
 }

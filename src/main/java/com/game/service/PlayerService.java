@@ -12,7 +12,7 @@ import java.util.List;
 public interface PlayerService {
     Player getById(Long id);
 
-    void save(Player player);
+    void save(Player player) throws Exception;
 
     void delete(Long id);
 

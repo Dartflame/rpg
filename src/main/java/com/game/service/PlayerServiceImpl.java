@@ -7,10 +7,10 @@ import com.game.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,7 +30,29 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public void save(Player player) {
+    public void save(Player player) throws Exception {
+        if (player == null
+                || player.getName() == null
+                || player.getTitle() == null
+                || player.getRace() == null
+                || player.getProfession() == null
+                || player.getName().equals("")
+                || player.getExperience() == null
+                || player.getBirthday() == null
+                || player.getExperience() < 0
+                || player.getExperience() > 10_000_000
+                || player.getBirthday().getTime() <0l
+                || player.getTitle().length() > 30
+                || player.getName().length() > 12
+                || player.getBirthday().before(new Date(100,1,1))
+                || player.getBirthday().after(new Date(1100,1,1))) {
+            throw new Exception();
+        }
+        if(player.isBanned() == null)
+            player.setBanned(false);
+
+        player.setLevel(Math.toIntExact(Math.round((Math.sqrt(2500 + 200 * player.getExperience()) - 50) / 100)));
+        player.setUntilNextLevel(50 * (player.getLevel() + 1) * (player.getLevel() + 2) - player.getExperience());
         repository.save(player);
     }
 
@@ -98,15 +120,15 @@ public class PlayerServiceImpl implements PlayerService {
                                           Pageable pageable
     ) {
 
-        return repository.findAll(PlayerCriterias.findPlayerByName(name)
-                .and(PlayerCriterias.findPlayerByRace(race))
-                .and(PlayerCriterias.findPlayerByProfession(profession))
-                .and(PlayerCriterias.findPlayerByStatus(banned))
-                .and(PlayerCriterias.findPlayerByTitle(title))
-                .and(PlayerCriterias.findPlayerByDate(after,before))
-                .and(PlayerCriterias.findPlayerByExp(experienceMin, experienceMax))
-                .and(PlayerCriterias.findPlayerByMaxLevel(levelMax))
-                .and(PlayerCriterias.findPlayerByMinLevel(levelMin)),pageable);
+        return repository.findAll(PlayerSearchSpecs.findPlayerByName(name)
+                .and(PlayerSearchSpecs.findPlayerByRace(race))
+                .and(PlayerSearchSpecs.findPlayerByProfession(profession))
+                .and(PlayerSearchSpecs.findPlayerByStatus(banned))
+                .and(PlayerSearchSpecs.findPlayerByTitle(title))
+                .and(PlayerSearchSpecs.findPlayerByDate(after,before))
+                .and(PlayerSearchSpecs.findPlayerByExp(experienceMin, experienceMax))
+                .and(PlayerSearchSpecs.findPlayerByMaxLevel(levelMax))
+                .and(PlayerSearchSpecs.findPlayerByMinLevel(levelMin)),pageable);
     }
 
 
