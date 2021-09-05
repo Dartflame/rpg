@@ -1,0 +1,30 @@
+<persistence
+        version="2.1"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+        http://xmlns.jcp.org/xml/ns/persistence_2_1.xsd">
+
+    <persistence-unit name="model.helloworld.Message">
+<!--        <jta-data-source>myDS</jta-data-source>-->
+        <class>com.game.entity.Player</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+<!--            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+            <property name="hibernate.archive.autodetection" value="none"/>
+<!--            <property name="hibernate.hbm2ddl.auto" value="update" />-->
+
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+            <property name="hibernate.connection.password" value = "2508"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/rpg"/>
+            <property name="hibernate.connection.username" value="root" />
+            <property name="hibernate.dialect" value = "org.hibernate.dialect.MySQL5Dialect" />
+            <property name="show_sql" value = "true" />
+<!--            <property name="hibernate.current_session_context_class">thread</property>-->
+        </properties>
+    </persistence-unit>
+</persistence>
+
