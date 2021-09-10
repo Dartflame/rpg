@@ -1,4 +1,4 @@
-package com.game.service;
+package com.game.utils;
 
 import com.game.entity.Player;
 import com.game.entity.Profession;

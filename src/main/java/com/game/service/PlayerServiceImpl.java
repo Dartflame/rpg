@@ -4,6 +4,7 @@ import com.game.entity.Player;
 import com.game.entity.Profession;
 import com.game.entity.Race;
 import com.game.repository.PlayerRepository;
+import com.game.utils.PlayerSearchSpecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,7 +52,7 @@ public class PlayerServiceImpl implements PlayerService {
         if(player.isBanned() == null)
             player.setBanned(false);
 
-        player.setLevel(Math.toIntExact(Math.round((Math.sqrt(2500 + 200 * player.getExperience()) - 50) / 100)));
+        player.setLevel((int) ((Math.sqrt(2500 + 200 * player.getExperience())- 50) / 100));
         player.setUntilNextLevel(50 * (player.getLevel() + 1) * (player.getLevel() + 2) - player.getExperience());
         repository.save(player);
     }
@@ -130,6 +131,5 @@ public class PlayerServiceImpl implements PlayerService {
                 .and(PlayerSearchSpecs.findPlayerByMaxLevel(levelMax))
                 .and(PlayerSearchSpecs.findPlayerByMinLevel(levelMin)),pageable);
     }
-
 
 }
