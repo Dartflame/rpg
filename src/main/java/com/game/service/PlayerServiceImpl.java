@@ -8,6 +8,7 @@ import com.game.utils.PlayerSearchSpecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -114,10 +115,10 @@ public class PlayerServiceImpl implements PlayerService {
                                           Race race, Profession profession,
                                           Boolean banned,
                                           Long after, Long before,
-                                          @RequestParam(required = false, defaultValue = "")Integer experienceMin,
-                                          @RequestParam(required = false, defaultValue = "")Integer experienceMax,
-                                          @RequestParam(required = false, defaultValue = "")Integer levelMin,
-                                          @RequestParam(required = false, defaultValue = "")Integer levelMax,
+                                          Integer experienceMin,
+                                          Integer experienceMax,
+                                          Integer levelMin,
+                                          Integer levelMax,
                                           Pageable pageable
     ) {
 
